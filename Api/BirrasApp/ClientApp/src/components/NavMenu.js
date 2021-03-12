@@ -30,7 +30,17 @@ export class NavMenu extends Component {
             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
               <ul className="navbar-nav flex-grow">
-                <NavItem>
+                  <NavItem>
+                  <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
+                </NavItem>
+              <NavItem>
+                  <NavLink tag={Link} className="text-dark" to="/conocer-temperatura">Conocer Temperatura</NavLink>
+                </NavItem>
+                {/* <NavItem>
+                  <NavLink tag={Link} className="text-dark" to="/aprovisionar-meetup">Aprovisionar Meetup</NavLink>
+                </NavItem> */}
+                
+                {/* <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
                 </NavItem>
                 <NavItem>
@@ -38,7 +48,7 @@ export class NavMenu extends Component {
                 </NavItem>
                 <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/fetch-data">Fetch data</NavLink>
-                </NavItem>
+                </NavItem> */}
               </ul>
             </Collapse>
           </Container>
