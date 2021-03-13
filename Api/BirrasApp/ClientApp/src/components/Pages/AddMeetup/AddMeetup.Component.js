@@ -54,13 +54,6 @@ export default function MaterialUIPickers() {
   };
 
   const saveMeeting = (data) => {
-    debugger;
-    var newMeeting = {
-      fecha: new Date(data.data.fecha).toLocaleDateString(),
-      nombre: data.data.nombre,
-      __KEY__: data.data__KEY__,
-    };
-
     var listMeeting = meetings;
 
     localStorage.setItem("meetings", JSON.stringify(listMeeting));
@@ -73,6 +66,25 @@ export default function MaterialUIPickers() {
     localStorage.setItem("meetings", JSON.stringify(listMeeting));
   };
 
+  const onUpdate = (data) => {
+    debugger;
+
+    var listMeeting = meetings.filter((x) => x.__KEY__ !== data.data.__KEY__);
+
+    var newMeeting = {
+      fecha: new Date(data.data.fecha).toISOString(),
+      nombre: data.data.nombre,
+      __KEY__: data.data.__KEY__,
+      inscripto: data.data.inscripto,
+      asistio: data.data.asistio,
+    };
+
+    listMeeting.push(newMeeting);
+    localStorage.setItem("meetings", JSON.stringify(listMeeting));
+
+    setMeetings(listMeeting);
+  };
+
   return (
     <Card variant='outlined'>
       <CardContent>
@@ -82,9 +94,15 @@ export default function MaterialUIPickers() {
               <CardContent>
                 <Grid container>
                   <Typography color='textSecondary' gutterBottom>
-                    Administre sus meetups
+                    Administración de meetups
                   </Typography>
                   <DataGrid
+                    onRowRemoved={(data) => {
+                      onDelete(data);
+                    }}
+                    onRowUpdated={(data) => {
+                      onUpdate(data);
+                    }}
                     locale={"es-ES"}
                     id='grid'
                     showBorders={true}
@@ -92,11 +110,8 @@ export default function MaterialUIPickers() {
                     onRowInserted={saveMeeting}
                     repaintChangesOnly={true}>
                     <Editing
-                      onRowDeleted={(data) => {
-                        debugger;
-                      }}
                       texts={{
-                        addRow: "agregar",
+                        addRow: "Agregar",
                         saveRowChanges: "Guardar",
                         cancelRowChanges: "Cancelar",
                         deleteRow: "eliminar",
@@ -104,15 +119,25 @@ export default function MaterialUIPickers() {
                         confirmDeleteMessage: "¿Seguro que desea eliminar?",
                       }}
                       refreshMode={"reshape"}
-                      mode='cel'
+                      mode='cell'
                       allowAdding={true}
-                      deleteRow={false}
-                      Editing={false}
+                      allowDeleting={true}
+                      deleteRow={true}
+                      allowUpdating={true}
                     />
 
                     <Column required dataField='nombre' caption='Nombre'>
                       <RequiredRule message='Es obligatorio' />
                     </Column>
+
+                    <Column
+                      defaultVisible={false}
+                      dataField='inscripto'
+                      caption='inscripto'></Column>
+                    <Column
+                      defaultVisible={false}
+                      dataField='asistio'
+                      caption='inscripto'></Column>
 
                     <Column
                       required
