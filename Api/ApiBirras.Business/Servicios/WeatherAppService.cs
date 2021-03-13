@@ -14,17 +14,19 @@ namespace ApiBirras.Business.Servicios
     {
         IMapper _mapper;
 
+        string dateNow = DateTime.Now.ToString("yyyy/MM/dd");
+
         public WeatherAppService(IMapper mapper)
         {
             _mapper = mapper;
         }
-        public async Task<string> GetTemperatureAsync()
+        public async Task<WeatherModel> GetTemperatureAsync()
         {
             HttpClient client;
             HttpRequestMessage request;
 
             //realizao las configuraciones para la llamada a la api
-            ClientConfiguration(out client, out request);
+            ClientConfiguration(out client, out request, dateNow);
 
             using (var response = await client.SendAsync(request))
             {
@@ -36,12 +38,38 @@ namespace ApiBirras.Business.Servicios
 
                 // en el front end hacer un substring para que quede solo 1 decimal
                 // despues de la coma
-                var jsonToReturn = JsonSerializer.Serialize(WeatherElement);
+               // var jsonToReturn = JsonSerializer.Serialize(WeatherElement);
 
-                return jsonToReturn;
+                return WeatherElement;
                
             }
         }
+
+        public async Task<WeatherModel> GetTemperatureByDateAsync(DateTime dateToSearch)
+        {
+            HttpClient client;
+            HttpRequestMessage request;
+
+            //realizao las configuraciones para la llamada a la api
+            ClientConfiguration(out client, out request, dateToSearch.ToString("yyyy/MM/dd"));
+
+            using (var response = await client.SendAsync(request))
+            {
+                response.EnsureSuccessStatusCode();
+                var body = await response.Content.ReadAsStringAsync();
+
+
+                var WeatherElement = ExtractWeather(body);
+
+                // en el front end hacer un substring para que quede solo 1 decimal
+                // despues de la coma
+                // var jsonToReturn = JsonSerializer.Serialize(WeatherElement);
+
+                return WeatherElement;
+
+            }
+        }
+
 
         private static WeatherModel ExtractWeather(string body)
         {  //Mapeo los valores del json, al modelo de temperatura
@@ -51,10 +79,10 @@ namespace ApiBirras.Business.Servicios
             return jsonElement[0];
         }
 
-        private static void ClientConfiguration(out HttpClient client, out HttpRequestMessage request)
+        private static void ClientConfiguration(out HttpClient client, out HttpRequestMessage request, string date)
         {
             client = new HttpClient();
-            string date = DateTime.Now.ToString("yyyy/MM/dd");
+          
 
             request = new HttpRequestMessage
             {
@@ -65,17 +93,17 @@ namespace ApiBirras.Business.Servicios
             };
         }
 
-        public async Task<double> GetUnitsBeerForMeeting(int cantidadPersonas)
+        public async Task<double> GetUnitsBeerForMeeting(int cantidadPersonas, DateTime dateToSearch)
         {
             HttpClient client;
             HttpRequestMessage request;
-            int a = 1;
+          
             const int unidadesPorCaja = 6;
             double unidades=0;
             double cajas=0;
 
             //realizao las configuraciones para la llamada a la api
-            ClientConfiguration(out client, out request);
+            ClientConfiguration(out client, out request, dateToSearch.ToString("yyyy/MM/dd"));
 
 
     // Tenemos un proveedor que nos vende cajas de 6 unidades de birras.

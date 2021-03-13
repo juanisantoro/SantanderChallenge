@@ -1,4 +1,7 @@
 ﻿using ApiBirras.Business.Interfaces;
+using ApiBirras.Business.Modelos;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,7 +11,8 @@ using System.Threading.Tasks;
 namespace Api.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    
+     [ApiController]
     public class WeatherController : ControllerBase
     {
 
@@ -17,19 +21,34 @@ namespace Api.Controllers
         {
             _weatherAppService = weatherAppService;
         }
+
+      
         [HttpGet("getWeather")]
-        public async Task<string> getWeatherAsync()
+        public async Task<WeatherModel> getWeatherAsync()
         {
             var resp = await _weatherAppService.GetTemperatureAsync();
 
             return resp;
         }
 
-        [HttpGet("getBoxBeer/{cantidadPersonas}")]
 
-        public async Task<double> getBoxBeerAsync([FromRoute] int cantidadPersonas)
+        [HttpGet("getWeatherByDate/{fecha}")]
+        public async Task<WeatherModel> getWeatherByDateAsync([FromRoute] string fecha)
         {
-            var resp = await _weatherAppService.GetUnitsBeerForMeeting(cantidadPersonas);
+            DateTime dateToSearch = DateTime.Parse(fecha);
+
+            var resp = await _weatherAppService.GetTemperatureByDateAsync(dateToSearch);
+
+            return resp;
+        }
+
+
+        [HttpGet("getBoxBeer/{cantidadPersonas}/{fecha}")]
+
+        public async Task<double> GetBoxBeerAsync([FromRoute] int cantidadPersonas, [FromRoute] string fecha)
+        {
+            DateTime dateToSearch = DateTime.Parse(fecha);
+            var resp = await _weatherAppService.GetUnitsBeerForMeeting(cantidadPersonas, dateToSearch);
 
             return resp;
         }

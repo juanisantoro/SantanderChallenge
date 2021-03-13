@@ -44,6 +44,16 @@ namespace Api
             }
             ));
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder => builder.AllowAnyMethod()
+                                      .AllowAnyHeader()
+
+                                      .AllowAnyOrigin()
+                                      .AllowCredentials());
+            });
+
             // Auto Mapper Configurations
             var mapperConfig = new MapperConfiguration(mc =>
             {
@@ -72,6 +82,8 @@ namespace Api
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Test version 1");
             });
 
+            app.UseCors("AllowAll");
+            app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

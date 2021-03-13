@@ -30,7 +30,18 @@ namespace BirrasApp
             });
 
             services.AddScoped<IWeatherAppService, WeatherAppService>();
-           
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder => builder.AllowAnyMethod()
+                                      .AllowAnyHeader()
+                                      
+                                      .AllowAnyOrigin()
+                                      .AllowCredentials());
+            });
+
+      
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,8 +56,14 @@ namespace BirrasApp
                 app.UseExceptionHandler("/Error");
             }
 
+
+            app.UseCors("AllowAll");
+            app.UseHttpsRedirection();
+
+            //app.UseRouting();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+         
 
             app.UseMvc(routes =>
             {
@@ -54,6 +71,8 @@ namespace BirrasApp
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
+
+          
 
             app.UseSpa(spa =>
             {
