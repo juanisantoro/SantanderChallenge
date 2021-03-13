@@ -91,6 +91,7 @@ export default function SignIn() {
         </Typography> */}
         <form className={classes.form} noValidate>
           <TextField
+            placeholder='user o admin'
             onChange={setearUser}
             variant='outlined'
             margin='normal'
@@ -105,6 +106,7 @@ export default function SignIn() {
             value={user}
           />
           <TextField
+            placeholder='123456'
             onChange={setearPass}
             variant='outlined'
             margin='normal'
