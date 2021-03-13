@@ -20,6 +20,7 @@ import TextField from '@material-ui/core/TextField';
 import Icon from '@material-ui/core/Icon';
 import { CircularProgress, Button } from '@material-ui/core';
 import weatherService from '../../../services/weatherService';
+import esLocale from 'date-fns/locale/es';
 
 export default function MaterialUIPickers() {
   // The first commit of Material-UI
@@ -109,7 +110,7 @@ const[loading,setLoading] = useState(false);
   return (
     <Card variant="outlined">
     <CardContent>
-      <MuiPickersUtilsProvider   utils={DateFnsUtils}>
+      <MuiPickersUtilsProvider  locale={esLocale}  utils={DateFnsUtils}>
       <Grid container justify="space-around">
       <Grid item xs={12}>
       <Typography  color="textSecondary" gutterBottom>

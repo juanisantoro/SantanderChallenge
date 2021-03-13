@@ -17,6 +17,7 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import { CircularProgress, Button } from '@material-ui/core';
 import './ConocerTemperatura.scss'
+import esLocale from 'date-fns/locale/es';
 
 export default function MaterialUIPickers() {
   // The first commit of Material-UI
@@ -92,7 +93,7 @@ export default function MaterialUIPickers() {
   return (
     <Card variant="outlined">
     <CardContent>
-      <MuiPickersUtilsProvider   utils={DateFnsUtils}>
+      <MuiPickersUtilsProvider  locale={esLocale} utils={DateFnsUtils}>
       <Grid container justify="space-around">
       <Grid item xs={12}>
       <Typography  color="textSecondary" gutterBottom>
