@@ -15,13 +15,13 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-
+import { CircularProgress, Button } from '@material-ui/core';
 import './ConocerTemperatura.scss'
 
 export default function MaterialUIPickers() {
   // The first commit of Material-UI
   const [selectedDate, setSelectedDate] = React.useState(new Date());
-  debugger;
+  const[loading,setLoading] = useState(false);
   
   const[fechaMax,setFechaMax] = useState();
   const[temperatura,setTemperatura] = useState([]);
@@ -47,19 +47,22 @@ export default function MaterialUIPickers() {
 
   const handleDateChange = async (date) => {
     setSelectedDate(date);
-    if(date !== null){
-      if(date.toDateString() !== "Invalid Date"){
-       
-       
-            var data= await wheatherService.getByDateToSearch(date);
-        
-            setTemperatura(data)
-      }
-    }
-    
+ 
    
 
   };
+
+  const searchWeather= async () =>{
+    if(selectedDate !== null){
+      if(selectedDate.toDateString() !== "Invalid Date"){
+       
+        setLoading(true);
+            var data= await wheatherService.getByDateToSearch(selectedDate);
+            setLoading(false);
+            setTemperatura(data)
+      }
+    }
+  }
 
 
   function sumarDias(fecha, dias){
@@ -101,6 +104,7 @@ export default function MaterialUIPickers() {
       </Grid>
         <Grid item xs={12} >
         <KeyboardDatePicker
+         InputProps={{ readOnly: true }}
           maxDate={fechaMax} 
           initialFocusedDate={Date.now()}
           lang=""
@@ -116,6 +120,20 @@ export default function MaterialUIPickers() {
           maxDateMessage="Fecha maxima 5 dias a la fecha de hoy"
         />
         </Grid>
+        <Grid item xs={6}> 
+   <Button
+  pending
+  pendingPosition="start"
+ onClick={searchWeather}
+    margin="normal"
+        variant="contained"
+        color="primary"       
+      >
+         Consultar
+         {loading && <CircularProgress color="secondary"  size={25} />}
+        
+      
+      </Button></Grid>
  <Grid item xs={6}></Grid>
  <Grid item xs={6}>
  <Card variant="outlined">

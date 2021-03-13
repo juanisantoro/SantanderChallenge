@@ -4,6 +4,7 @@ import Lottie from 'lottie-react';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import animationData from '../../../lotties/min-max.json';
+import animationDataBeer from '../../../lotties/6889-happy-friday.json';
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
@@ -112,7 +113,7 @@ const[loading,setLoading] = useState(false);
       <Grid container justify="space-around">
       <Grid item xs={12}>
       <Typography  color="textSecondary" gutterBottom>
-          Calcule la cantidad de cajas a comprar
+          Calcule la cantidad de cajas de cerveza a comprar 
       </Typography>
       <Typography variant="h5" component="h2">
         Seleccione la fecha de su meetup e ingrese cantidad de personas
@@ -164,11 +165,10 @@ const[loading,setLoading] = useState(false);
            
       
         </Grid>
- <Grid item xs={6}>   <Button
+ <Grid item xs={6}> 
+   <Button
   pending
   pendingPosition="start"
-
- 
  onClick={calculateBeer}
     margin="normal"
         variant="contained"
@@ -181,12 +181,30 @@ const[loading,setLoading] = useState(false);
         
       
       </Button></Grid>
-      <Typography variant="h5" component="h2">
-        Cantidad de cajas de cerveza {cantidadBirras}
-      </Typography>
+
  <Grid item xs={6}>
  <Card variant="outlined">
           <CardContent>
+            <Grid container>
+            <Grid  item xs={12}>
+            
+            <Typography variant="h5" component="h2">
+      Cantidad de cajas recomendada: {cantidadBirras}
+    </Typography>
+            </Grid>
+            <Grid item xs={4}>
+
+            </Grid>
+            <Grid item xs={8}>
+            <Lottie 
+              options={defaultOptions}        
+                animationData={animationDataBeer}
+                style={{width:150, height:150}}
+              />
+            </Grid>
+            </Grid>
+
+              <Divider></Divider>
         <Grid item xs={12}>
 
           <Grid container>
@@ -243,6 +261,23 @@ const[loading,setLoading] = useState(false);
             />
         </Grid>
         </Grid>
+        </CardContent>
+
+      </Card>
+
+
+ </Grid>
+
+ <Grid item xs={6}>
+ <Card variant="outlined">
+          <CardContent>
+
+            <Grid container>
+
+
+
+
+              </Grid>
         </CardContent>
 
       </Card>
