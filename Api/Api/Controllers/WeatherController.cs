@@ -53,6 +53,31 @@ namespace Api.Controllers
             return resp;
         }
 
+        [HttpPost("login")]
+
+        public async Task<LoginModel> Login([FromBody] LoginModel model)
+        
+        {
+            if (model.user.ToLower() == "user" && model.pass == "123456")
+            {
+                model.isUser = true;
+                model.isAdmin = false;
+                model.isAuthenticated = true;
+            }
+            else if (model.user.ToLower() == "admin" && model.pass == "123456")
+            {
+                model.isAdmin = true;
+                model.isUser = false;
+                model.isAuthenticated = true;
+            }
+            
+           // DateTime dateToSearch = DateTime.Parse(fecha);
+            //var resp = await _weatherAppService.GetUnitsBeerForMeeting(cantidadPersonas, dateToSearch);
+
+            return model;
+        }
+
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()

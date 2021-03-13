@@ -6,3 +6,4 @@ C:\73a6f27b-2df2-40fe-a3ad-12e8d65348cf\Api\ApiBirras.Business\obj\Debug\netstan
 C:\73a6f27b-2df2-40fe-a3ad-12e8d65348cf\Api\ApiBirras.Business\obj\Debug\netstandard2.0\ApiBirras.Business.csproj.CoreCompileInputs.cache
 C:\73a6f27b-2df2-40fe-a3ad-12e8d65348cf\Api\ApiBirras.Business\obj\Debug\netstandard2.0\ApiBirras.Business.dll
 C:\73a6f27b-2df2-40fe-a3ad-12e8d65348cf\Api\ApiBirras.Business\obj\Debug\netstandard2.0\ApiBirras.Business.pdb
+C:\73a6f27b-2df2-40fe-a3ad-12e8d65348cf\Api\ApiBirras.Business\obj\Debug\netstandard2.0\ApiBirras.Business.csprojAssemblyReference.cache
