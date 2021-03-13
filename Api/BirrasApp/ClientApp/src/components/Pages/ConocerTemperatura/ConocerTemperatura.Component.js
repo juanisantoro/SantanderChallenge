@@ -47,10 +47,17 @@ export default function MaterialUIPickers() {
 
   const handleDateChange = async (date) => {
     setSelectedDate(date);
-debugger;
-    var data= await wheatherService.getByDateToSearch(date);
-
-    setTemperatura(data)
+    if(date !== null){
+      if(date.toDateString() !== "Invalid Date"){
+       
+       
+            var data= await wheatherService.getByDateToSearch(date);
+        
+            setTemperatura(data)
+      }
+    }
+    
+   
 
   };
 

@@ -84,6 +84,53 @@ const getByDateToSearch = async (date)=> {
 	}
 };
 
+const getBeersBox = async (date, cantidadPersonas)=> {
+	try {
+		const urlFilterByDate = `getBoxBeer/${cantidadPersonas}/${date.toISOString()}`;
+
+		const response = await axios.get(urlFilterByDate);
+		debugger;
+		return response.data;
 
 
-export default { post, getFilterBeetwenDate, getByDateNow, getByDateToSearch };
+		
+	
+	} catch (error) {
+		console.error(error);
+		return [];
+	}
+};
+
+const getBeersBoxAndWheather = async (date, cantidadPersonas)=> {
+	try {
+
+		debugger;
+		const urlBeer = `https://localhost:44360/api/Weather/getBoxBeer/${cantidadPersonas}/${date.toISOString()}`;
+		const urlWeather = `https://localhost:44360/api/Weather/getWeatherByDate/${date.toISOString()}`;
+
+
+		return await Axios.all([
+			Axios.get(urlBeer),
+			Axios.get(urlWeather),
+		]).then(function(data) {
+			var beer = data[0].data;
+			var weather = data[1].data;
+			
+
+			return {
+				weather: weather,
+				cantBeer: beer,
+
+			};
+		});
+
+
+
+	
+	} catch (error) {
+		console.error(error);
+		return [];
+	}
+};
+
+export default { post, getFilterBeetwenDate, getByDateNow, getByDateToSearch , getBeersBox,getBeersBoxAndWheather};
