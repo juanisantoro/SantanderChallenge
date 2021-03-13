@@ -71,7 +71,15 @@ export class NavMenu extends Component {
                 ) : (
                   ""
                 )}
-
+                {JSON.parse(sessionStorage.getItem("user")).isAdmin === true ? (
+                  <NavItem>
+                    <NavLink tag={Link} className='text-dark' to='/add-meetup'>
+                      Crear Meetup
+                    </NavLink>
+                  </NavItem>
+                ) : (
+                  ""
+                )}
                 <NavItem>
                   <NavLink
                     onClick={() => {
