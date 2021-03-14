@@ -4,7 +4,9 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
+import Snackbar from "@material-ui/core/Snackbar";
 import Typography from "@material-ui/core/Typography";
+import MuiAlert from "@material-ui/lab/Alert";
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
@@ -17,8 +19,6 @@ import Thermometer from "react-thermometer-component";
 import animationData from "../../../lotties/min-max.json";
 import wheatherService from "../../../services/weatherService";
 import "./ConocerTemperatura.scss";
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
 
 export default function MaterialUIPickers() {
   // The first commit of Material-UI
@@ -39,7 +39,7 @@ export default function MaterialUIPickers() {
   useEffect(() => {
     var d = new Date();
 
-    setFechaMax(sumarDias(d, 5));
+    setFechaMax(sumarDias(d, 8));
   }, []);
 
   function Alert(props) {

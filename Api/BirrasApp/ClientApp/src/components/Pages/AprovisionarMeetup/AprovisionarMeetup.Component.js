@@ -40,7 +40,7 @@ export default function MaterialUIPickers() {
   useEffect(() => {
     var d = new Date();
 
-    setFechaMax(sumarDias(d, 5));
+    setFechaMax(sumarDias(d, 8));
   }, []);
 
   const handleClose = (event, reason) => {

@@ -174,7 +174,7 @@ export default function MaterialUIPickers() {
                 // deleteRow={true}
                 allowUpdating={true}
               />
-              <Paging defaultPageSize={10}></Paging>
+              <Paging defaultPageSize={8}></Paging>
               <Column width={150} required dataField='nombre' caption='Nombre'>
                 <RequiredRule message='Es obligatorio' />
               </Column>
