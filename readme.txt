@@ -78,7 +78,7 @@ Seleccionar fecha y cantidad de personas a asistir a la meeting, para el calculo
 ----------------------------------------------------------Crear meetup-----------------------------------------------------------------
 
 La creacion de meetups es en local storage, no se posee DB, no son persistidos por no poseer capa de accedo a datos.
-Se permite crear una nueva meetup, editar sus datos y eliminar.
+Se permite crear una nueva meetup y eliminar.
 
 
 
