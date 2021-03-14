@@ -202,8 +202,6 @@ export default function MaterialUIPickers() {
                         (x) => x.__KEY__ === e.row.data.__KEY__
                       );
 
-                      meetToChange[0].asistio = "Si";
-
                       var a = {
                         __KEY__: meetToChange[0].__KEY__,
                         asistio:
@@ -254,32 +252,32 @@ export default function MaterialUIPickers() {
                         (x) => x.__KEY__ === e.row.data.__KEY__
                       );
 
-                      meetToChange[0].asistio = "Si";
+                      if (meetToChange[0].inscripto !== undefined) {
+                        var a = {
+                          __KEY__: meetToChange[0].__KEY__,
+                          nombre: meetToChange[0].nombre,
+                          fecha: meetToChange[0].fecha,
+                          inscripto:
+                            meetToChange[0].inscripto === undefined
+                              ? ""
+                              : meetToChange[0].inscripto,
+                          asistio: "Si",
+                        };
 
-                      var a = {
-                        __KEY__: meetToChange[0].__KEY__,
-                        nombre: meetToChange[0].nombre,
-                        fecha: meetToChange[0].fecha,
-                        inscripto:
-                          meetToChange[0].inscripto === undefined
-                            ? ""
-                            : meetToChange[0].inscripto,
-                        asistio: "Si",
-                      };
+                        var listToChange = listOfMeetings.filter(
+                          (x) => x.__KEY__ !== e.row.data.__KEY__
+                        );
 
-                      var listToChange = listOfMeetings.filter(
-                        (x) => x.__KEY__ !== e.row.data.__KEY__
-                      );
+                        listToChange.push(a);
 
-                      listToChange.push(a);
+                        //localStorage.clear();
+                        localStorage.setItem(
+                          "meetings",
+                          JSON.stringify(listToChange)
+                        );
 
-                      //localStorage.clear();
-                      localStorage.setItem(
-                        "meetings",
-                        JSON.stringify(listToChange)
-                      );
-
-                      setMeetings(listToChange);
+                        setMeetings(listToChange);
+                      }
                     },
                   },
                 ]}
