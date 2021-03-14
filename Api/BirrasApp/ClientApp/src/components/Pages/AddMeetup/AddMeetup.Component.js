@@ -67,7 +67,7 @@ export default function MaterialUIPickers() {
 
     var newMeeting = {
       fecha: new Date(data.data.fecha).toISOString(),
-      nombre: data.data.nombre.charAt(0).toUpperCase(),
+      nombre: data.data.nombre,
       __KEY__: data.data.__KEY__,
       inscripto: data.data.inscripto,
       asistio: data.data.asistio,

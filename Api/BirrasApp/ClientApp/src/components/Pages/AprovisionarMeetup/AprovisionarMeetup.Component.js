@@ -271,14 +271,6 @@ export default function MaterialUIPickers() {
                 </CardContent>
               </Card>
             </Grid>
-
-            <Grid item xs={6}>
-              <Card variant='outlined'>
-                <CardContent>
-                  <Grid container></Grid>
-                </CardContent>
-              </Card>
-            </Grid>
           </Grid>
           <Snackbar
             open={showSnack}
