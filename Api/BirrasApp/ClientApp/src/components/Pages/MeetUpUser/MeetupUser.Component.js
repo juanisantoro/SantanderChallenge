@@ -7,6 +7,7 @@ import {
   Column,
   DataGrid,
   Editing,
+  Paging,
   RequiredRule,
 } from "devextreme-react/data-grid";
 import React, { useEffect, useState } from "react";
@@ -173,7 +174,7 @@ export default function MaterialUIPickers() {
                 // deleteRow={true}
                 allowUpdating={true}
               />
-
+              <Paging defaultPageSize={10}></Paging>
               <Column width={150} required dataField='nombre' caption='Nombre'>
                 <RequiredRule message='Es obligatorio' />
               </Column>
