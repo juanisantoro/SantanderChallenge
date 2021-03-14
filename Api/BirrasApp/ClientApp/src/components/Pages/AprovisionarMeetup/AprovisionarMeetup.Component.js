@@ -236,7 +236,10 @@ export default function MaterialUIPickers() {
                           variant={"caption"}
                           color='textSecondary'
                           gutterBottom>
-                          Temperatura minima: {temperatura.min_temp}
+                          Temperatura minima:{" "}
+                          {temperatura !== undefined
+                            ? temperatura.min_temp
+                            : ""}
                         </Typography>
                       </Grid>
                       <Grid item xs={6}>
@@ -244,7 +247,10 @@ export default function MaterialUIPickers() {
                           variant={"caption"}
                           color='textSecondary'
                           gutterBottom>
-                          Temperatura maxima: {temperatura.max_temp}
+                          Temperatura maxima:{" "}
+                          {temperatura !== undefined
+                            ? temperatura.max_temp
+                            : ""}
                         </Typography>
                       </Grid>
                     </Grid>
@@ -259,7 +265,9 @@ export default function MaterialUIPickers() {
                       </Typography>
                       <Thermometer
                         theme='light'
-                        value={temperatura.the_temp}
+                        value={
+                          temperatura !== undefined ? temperatura.the_temp : ""
+                        }
                         max='50'
                         steps='5'
                         format='°C'
