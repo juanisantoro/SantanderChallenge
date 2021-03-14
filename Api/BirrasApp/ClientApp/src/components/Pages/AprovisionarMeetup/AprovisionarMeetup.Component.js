@@ -116,168 +116,177 @@ export default function MaterialUIPickers() {
       <CardContent>
         <MuiPickersUtilsProvider locale={esLocale} utils={DateFnsUtils}>
           <Grid container justify='space-around'>
-            <Grid item xs={12}>
-              <Typography color='textSecondary' gutterBottom>
-                Calcule la cantidad de cajas de cerveza a comprar
-              </Typography>
-              <Typography variant='h5' component='h2'>
-                Seleccione la fecha de su meetup e ingrese cantidad de personas
-              </Typography>
-            </Grid>
-            <Grid container item xs={12}>
-              <Grid item xs={4}>
-                <KeyboardDatePicker
-                  required
-                  InputProps={{ readOnly: true }}
-                  error={
+            <Grid xs={12} md={6}>
+              <Grid item xs={12}>
+                <Typography variant='h6' component='h2' gutterBottom>
+                  Calcule la cantidad de cajas de cerveza a comprar
+                </Typography>
+                <Typography color='textSecondary'>
+                  Seleccione la fecha de su meetup e ingrese cantidad de
+                  personas
+                </Typography>
+              </Grid>
+              <Grid container item xs={12}>
+                <Grid item xs={4}>
+                  <KeyboardDatePicker
+                    required
+                    InputProps={{ readOnly: true }}
+                    error={
+                      selectedDate !== null &&
+                      selectedDate.toDateString() !== "Invalid Date"
+                        ? false
+                        : true
+                    }
+                    maxDate={fechaMax}
+                    initialFocusedDate={Date.now()}
+                    lang=''
+                    margin='normal'
+                    id='date-picker-dialog'
+                    label='Fecha de la meetup'
+                    format='dd/MM/yyyy'
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    KeyboardButtonProps={{
+                      "aria-label": "seleccione fecha",
+                    }}
+                    maxDateMessage='Fecha maxima 5 dias a la fecha de hoy'
+                  />
+                </Grid>
+
+                <Grid item xs={2}></Grid>
+                <Grid item xs={3}>
+                  <TextField
+                    defaultValue={cantidadPersonas}
+                    error={cantidadPersonas > 0 ? false : true}
+                    onChange={handlePersonsChange}
+                    value={cantidadPersonas}
+                    margin='normal'
+                    id='standard-number'
+                    label='Cantidad de personas'
+                    type='number'
+                    required={true}
+                    inputProps={{
+                      InputProps: { min: 0, max: 1000, pattern: "^[1-9]d*$" },
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={2}></Grid>
+              </Grid>
+
+              <Grid item xs={6}>
+                <Button
+                  pending
+                  pendingPosition='start'
+                  onClick={calculateBeer}
+                  margin='normal'
+                  variant='contained'
+                  color='primary'
+                  disabled={
+                    cantidadPersonas > 0 &&
                     selectedDate !== null &&
                     selectedDate.toDateString() !== "Invalid Date"
                       ? false
                       : true
                   }
-                  maxDate={fechaMax}
-                  initialFocusedDate={Date.now()}
-                  lang=''
-                  margin='normal'
-                  id='date-picker-dialog'
-                  label='Fecha de la meetup'
-                  format='dd/MM/yyyy'
-                  value={selectedDate}
-                  onChange={handleDateChange}
-                  KeyboardButtonProps={{
-                    "aria-label": "seleccione fecha",
-                  }}
-                  maxDateMessage='Fecha maxima 5 dias a la fecha de hoy'
-                />
+                  endIcon={<Icon></Icon>}>
+                  Calcular
+                  {loading && <CircularProgress color='secondary' size={25} />}
+                </Button>
               </Grid>
-
-              <Grid item xs={3}>
-                <TextField
-                  defaultValue={cantidadPersonas}
-                  error={cantidadPersonas > 0 ? false : true}
-                  onChange={handlePersonsChange}
-                  value={cantidadPersonas}
-                  margin='normal'
-                  id='standard-number'
-                  label='Cantidad de personas'
-                  type='number'
-                  required={true}
-                  inputProps={{
-                    InputProps: { min: 0, max: 1000, pattern: "^[1-9]d*$" },
-                  }}
-                />
-              </Grid>
-
-              <Grid item xs={2}></Grid>
-            </Grid>
-            <Grid item xs={6}>
-              <Button
-                pending
-                pendingPosition='start'
-                onClick={calculateBeer}
-                margin='normal'
-                variant='contained'
-                color='primary'
-                disabled={
-                  cantidadPersonas > 0 &&
-                  selectedDate !== null &&
-                  selectedDate.toDateString() !== "Invalid Date"
-                    ? false
-                    : true
-                }
-                endIcon={<Icon></Icon>}>
-                Calcular
-                {loading && <CircularProgress color='secondary' size={25} />}
-              </Button>
             </Grid>
 
-            <Grid item xs={6}>
-              <Card variant='outlined'>
-                <CardContent>
-                  <Grid container>
-                    <Grid item xs={12}>
-                      <Typography variant='h5' component='h2'>
-                        Cantidad de cajas recomendada: {cantidadBirras}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={4}></Grid>
-                    <Grid item xs={8}>
-                      <Lottie
-                        options={defaultOptions}
-                        animationData={animationDataBeer}
-                        style={{ width: 150, height: 150 }}
-                      />
-                    </Grid>
-                  </Grid>
-
-                  <Divider></Divider>
-                  <Grid item xs={12}>
+            <Grid xs={12} md={6}>
+              <Grid item xs={12} md={12}>
+                <Card variant='outlined'>
+                  <CardContent>
                     <Grid container>
-                      {selectedDate !== null &&
-                      selectedDate.toDateString() !== "Invalid Date" ? (
+                      <Grid item xs={12}>
                         <Typography variant='h5' component='h2'>
-                          Temperatura para el dia{" "}
-                          {selectedDate.toLocaleDateString()}
+                          Cantidad de cajas recomendada: {cantidadBirras}
                         </Typography>
-                      ) : (
-                        ""
-                      )}
-                      <Grid item xs={12}></Grid>
+                      </Grid>
                       <Grid item xs={4}></Grid>
                       <Grid item xs={8}>
                         <Lottie
                           options={defaultOptions}
-                          animationData={animationData}
+                          animationData={animationDataBeer}
                           style={{ width: 150, height: 150 }}
                         />
                       </Grid>
-                      <Grid item xs={6}>
-                        <Typography
-                          variant={"caption"}
-                          color='textSecondary'
-                          gutterBottom>
-                          Temperatura minima:{" "}
-                          {temperatura !== undefined
-                            ? temperatura.min_temp
-                            : ""}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Typography
-                          variant={"caption"}
-                          color='textSecondary'
-                          gutterBottom>
-                          Temperatura maxima:{" "}
-                          {temperatura !== undefined
-                            ? temperatura.max_temp
-                            : ""}
-                        </Typography>
-                      </Grid>
                     </Grid>
-                  </Grid>
-                  <Divider light />
 
-                  <Grid container>
-                    <Grid item xs={4}></Grid>
-                    <Grid item xs={8}>
-                      <Typography color='textSecondary' gutterBottom>
-                        Temperatura Promedio
-                      </Typography>
-                      <Thermometer
-                        theme='light'
-                        value={
-                          temperatura !== undefined ? temperatura.the_temp : ""
-                        }
-                        max='50'
-                        steps='5'
-                        format='°C'
-                        size='large'
-                        height='200'
-                      />
+                    <Divider></Divider>
+                    <Grid item xs={12}>
+                      <Grid container>
+                        {selectedDate !== null &&
+                        selectedDate.toDateString() !== "Invalid Date" ? (
+                          <Typography variant='h5' component='h2'>
+                            Temperatura para el dia{" "}
+                            {selectedDate.toLocaleDateString()}
+                          </Typography>
+                        ) : (
+                          ""
+                        )}
+                        <Grid item xs={12}></Grid>
+                        <Grid item xs={4}></Grid>
+                        <Grid item xs={8}>
+                          <Lottie
+                            options={defaultOptions}
+                            animationData={animationData}
+                            style={{ width: 150, height: 150 }}
+                          />
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Typography
+                            variant={"caption"}
+                            color='textSecondary'
+                            gutterBottom>
+                            Temperatura minima:{" "}
+                            {temperatura !== undefined
+                              ? temperatura.min_temp
+                              : ""}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Typography
+                            variant={"caption"}
+                            color='textSecondary'
+                            gutterBottom>
+                            Temperatura maxima:{" "}
+                            {temperatura !== undefined
+                              ? temperatura.max_temp
+                              : ""}
+                          </Typography>
+                        </Grid>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </CardContent>
-              </Card>
+                    <Divider light />
+
+                    <Grid container>
+                      <Grid item xs={4}></Grid>
+                      <Grid item xs={8}>
+                        <Typography color='textSecondary' gutterBottom>
+                          Temperatura Promedio
+                        </Typography>
+                        <Thermometer
+                          theme='light'
+                          value={
+                            temperatura !== undefined
+                              ? temperatura.the_temp
+                              : ""
+                          }
+                          max='50'
+                          steps='5'
+                          format='°C'
+                          size='large'
+                          height='200'
+                        />
+                      </Grid>
+                    </Grid>
+                  </CardContent>
+                </Card>
+              </Grid>
             </Grid>
           </Grid>
           <Snackbar
