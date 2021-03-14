@@ -1,79 +1,97 @@
-import 'date-fns'
-import React, { useState, useEffect } from 'react'
-import Lottie from 'lottie-react'
-import Grid from '@material-ui/core/Grid'
-import DateFnsUtils from '@date-io/date-fns'
-import animationData from '../../../lotties/min-max.json'
-import animationDataBeer from '../../../lotties/6889-happy-friday.json'
+import DateFnsUtils from "@date-io/date-fns";
+import { Button, CircularProgress } from "@material-ui/core";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Divider from "@material-ui/core/Divider";
+import Grid from "@material-ui/core/Grid";
+import Icon from "@material-ui/core/Icon";
+import Snackbar from "@material-ui/core/Snackbar";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import MuiAlert from "@material-ui/lab/Alert";
 import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
   KeyboardDatePicker,
-} from '@material-ui/pickers'
-import Thermometer from 'react-thermometer-component'
-import wheatherService from '../../../services/weatherService'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
-import TextField from '@material-ui/core/TextField'
-import Icon from '@material-ui/core/Icon'
-import { CircularProgress, Button } from '@material-ui/core'
-import weatherService from '../../../services/weatherService'
-import esLocale from 'date-fns/locale/es'
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
+import "date-fns";
+import esLocale from "date-fns/locale/es";
+import Lottie from "lottie-react";
+import React, { useEffect, useState } from "react";
+import Thermometer from "react-thermometer-component";
+import animationDataBeer from "../../../lotties/6889-happy-friday.json";
+import animationData from "../../../lotties/min-max.json";
+import {
+  default as weatherService,
+  default as wheatherService,
+} from "../../../services/weatherService";
 
 export default function MaterialUIPickers() {
   // The first commit of Material-UI
-  const [selectedDate, setSelectedDate] = React.useState(new Date())
-  const [cantidadPersonas, setCantidad] = useState(1)
-  const [fechaValida, setFechaValida] = useState(true)
-  const [loading, setLoading] = useState(false)
+  const [selectedDate, setSelectedDate] = React.useState(new Date());
+  const [cantidadPersonas, setCantidad] = useState(1);
+  const [fechaValida, setFechaValida] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  const [fechaMax, setFechaMax] = useState()
-  const [temperatura, setTemperatura] = useState([])
-  const [cantidadBirras, setCantidadBirras] = useState(0)
+  const [fechaMax, setFechaMax] = useState();
+  const [temperatura, setTemperatura] = useState([]);
+  const [cantidadBirras, setCantidadBirras] = useState(0);
+  const [showSnack, setShowSnack] = useState(false);
+
   useEffect(() => {
-    var d = new Date()
+    var d = new Date();
 
-    setFechaMax(sumarDias(d, 5))
-  }, [])
+    setFechaMax(sumarDias(d, 5));
+  }, []);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setShowSnack(false);
+  };
+
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant='filled' {...props} />;
+  }
 
   const getWheatherNow = async () => {
-    var data = await wheatherService.getByDateNow()
+    var data = await wheatherService.getByDateNow();
 
-    var temperatura = data
+    var temperatura = data;
 
-    setTemperatura(data)
-  }
+    setTemperatura(data);
+  };
   useEffect(() => {
-    getWheatherNow()
-  }, [])
+    getWheatherNow();
+  }, []);
 
   const handleDateChange = async (date) => {
-    setSelectedDate(date)
-  }
+    setSelectedDate(date);
+  };
 
   const handlePersonsChange = (value) => {
-    setCantidad(value.valueOf().target.valueAsNumber)
-  }
+    setCantidad(value.valueOf().target.valueAsNumber);
+  };
 
   const calculateBeer = () => {
-    debugger
-    setLoading(true)
+    debugger;
+    setLoading(true);
     weatherService
       .getBeersBoxAndWheather(selectedDate, cantidadPersonas)
       .then((data) => {
-        setLoading(false)
-        debugger
+        setLoading(false);
+        debugger;
 
-        setCantidadBirras(data.cantBeer)
-        setTemperatura(data.weather)
-      })
-  }
+        setCantidadBirras(data.cantBeer);
+        setTemperatura(data.weather);
+        setShowSnack(true);
+      });
+  };
 
   function sumarDias(fecha, dias) {
-    fecha.setDate(fecha.getDate() + dias)
-    return fecha.toISOString().substring(0, 10)
+    fecha.setDate(fecha.getDate() + dias);
+    return fecha.toISOString().substring(0, 10);
   }
 
   const defaultOptions = {
@@ -83,69 +101,69 @@ export default function MaterialUIPickers() {
     width: 50,
     animationData: animationData,
     rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
+      preserveAspectRatio: "xMidYMid slice",
     },
     style: {
       width: 50,
       height: 50,
     },
-    isStopped: false, 
+    isStopped: false,
     isPaused: false,
-  }
+  };
 
   return (
-    <Card variant="outlined">
+    <Card variant='outlined'>
       <CardContent>
         <MuiPickersUtilsProvider locale={esLocale} utils={DateFnsUtils}>
-          <Grid container justify="space-around">
+          <Grid container justify='space-around'>
             <Grid item xs={12}>
-              <Typography color="textSecondary" gutterBottom>
+              <Typography color='textSecondary' gutterBottom>
                 Calcule la cantidad de cajas de cerveza a comprar
               </Typography>
-              <Typography variant="h5" component="h2">
+              <Typography variant='h5' component='h2'>
                 Seleccione la fecha de su meetup e ingrese cantidad de personas
               </Typography>
             </Grid>
             <Grid container item xs={12}>
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <KeyboardDatePicker
                   required
                   InputProps={{ readOnly: true }}
                   error={
                     selectedDate !== null &&
-                    selectedDate.toDateString() !== 'Invalid Date'
+                    selectedDate.toDateString() !== "Invalid Date"
                       ? false
                       : true
                   }
                   maxDate={fechaMax}
                   initialFocusedDate={Date.now()}
-                  lang=""
-                  margin="normal"
-                  id="date-picker-dialog"
-                  label="Fecha de la meetup"
-                  format="dd/MM/yyyy"
+                  lang=''
+                  margin='normal'
+                  id='date-picker-dialog'
+                  label='Fecha de la meetup'
+                  format='dd/MM/yyyy'
                   value={selectedDate}
                   onChange={handleDateChange}
                   KeyboardButtonProps={{
-                    'aria-label': 'seleccione fecha',
+                    "aria-label": "seleccione fecha",
                   }}
-                  maxDateMessage="Fecha maxima 5 dias a la fecha de hoy"
+                  maxDateMessage='Fecha maxima 5 dias a la fecha de hoy'
                 />
               </Grid>
 
-              <Grid item xs={2}>
+              <Grid item xs={3}>
                 <TextField
                   defaultValue={cantidadPersonas}
                   error={cantidadPersonas > 0 ? false : true}
                   onChange={handlePersonsChange}
                   value={cantidadPersonas}
-                  margin="normal"
-                  id="standard-number"
-                  label="Cantidad de personas"
-                  type="number"
+                  margin='normal'
+                  id='standard-number'
+                  label='Cantidad de personas'
+                  type='number'
                   required={true}
                   inputProps={{
-                    InputProps: { min: 0, max: 1000, pattern: '^[1-9]d*$' },
+                    InputProps: { min: 0, max: 1000, pattern: "^[1-9]d*$" },
                   }}
                 />
               </Grid>
@@ -155,31 +173,30 @@ export default function MaterialUIPickers() {
             <Grid item xs={6}>
               <Button
                 pending
-                pendingPosition="start"
+                pendingPosition='start'
                 onClick={calculateBeer}
-                margin="normal"
-                variant="contained"
-                color="primary"
+                margin='normal'
+                variant='contained'
+                color='primary'
                 disabled={
                   cantidadPersonas > 0 &&
                   selectedDate !== null &&
-                  selectedDate.toDateString() !== 'Invalid Date'
+                  selectedDate.toDateString() !== "Invalid Date"
                     ? false
                     : true
                 }
-                endIcon={<Icon></Icon>}
-              >
+                endIcon={<Icon></Icon>}>
                 Calcular
-                {loading && <CircularProgress color="secondary" size={25} />}
+                {loading && <CircularProgress color='secondary' size={25} />}
               </Button>
             </Grid>
 
             <Grid item xs={6}>
-              <Card variant="outlined">
+              <Card variant='outlined'>
                 <CardContent>
                   <Grid container>
                     <Grid item xs={12}>
-                      <Typography variant="h5" component="h2">
+                      <Typography variant='h5' component='h2'>
                         Cantidad de cajas recomendada: {cantidadBirras}
                       </Typography>
                     </Grid>
@@ -197,13 +214,13 @@ export default function MaterialUIPickers() {
                   <Grid item xs={12}>
                     <Grid container>
                       {selectedDate !== null &&
-                      selectedDate.toDateString() !== 'Invalid Date' ? (
-                        <Typography variant="h5" component="h2">
-                          Temperatura para el dia{' '}
+                      selectedDate.toDateString() !== "Invalid Date" ? (
+                        <Typography variant='h5' component='h2'>
+                          Temperatura para el dia{" "}
                           {selectedDate.toLocaleDateString()}
                         </Typography>
                       ) : (
-                        ''
+                        ""
                       )}
                       <Grid item xs={12}></Grid>
                       <Grid item xs={4}></Grid>
@@ -215,12 +232,18 @@ export default function MaterialUIPickers() {
                         />
                       </Grid>
                       <Grid item xs={6}>
-                        <Typography color="textSecondary" gutterBottom>
+                        <Typography
+                          variant={"caption"}
+                          color='textSecondary'
+                          gutterBottom>
                           Temperatura minima: {temperatura.min_temp}
                         </Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        <Typography color="textSecondary" gutterBottom>
+                        <Typography
+                          variant={"caption"}
+                          color='textSecondary'
+                          gutterBottom>
                           Temperatura maxima: {temperatura.max_temp}
                         </Typography>
                       </Grid>
@@ -231,17 +254,17 @@ export default function MaterialUIPickers() {
                   <Grid container>
                     <Grid item xs={4}></Grid>
                     <Grid item xs={8}>
-                      <Typography color="textSecondary" gutterBottom>
+                      <Typography color='textSecondary' gutterBottom>
                         Temperatura Promedio
                       </Typography>
                       <Thermometer
-                        theme="light"
+                        theme='light'
                         value={temperatura.the_temp}
-                        max="50"
-                        steps="5"
-                        format="°C"
-                        size="large"
-                        height="200"
+                        max='50'
+                        steps='5'
+                        format='°C'
+                        size='large'
+                        height='200'
                       />
                     </Grid>
                   </Grid>
@@ -250,15 +273,23 @@ export default function MaterialUIPickers() {
             </Grid>
 
             <Grid item xs={6}>
-              <Card variant="outlined">
+              <Card variant='outlined'>
                 <CardContent>
                   <Grid container></Grid>
                 </CardContent>
               </Card>
             </Grid>
           </Grid>
+          <Snackbar
+            open={showSnack}
+            autoHideDuration={4000}
+            onClose={handleClose}>
+            <Alert onClose={handleClose} severity='success'>
+              Actualizado con exito
+            </Alert>
+          </Snackbar>
         </MuiPickersUtilsProvider>
       </CardContent>
     </Card>
-  )
+  );
 }

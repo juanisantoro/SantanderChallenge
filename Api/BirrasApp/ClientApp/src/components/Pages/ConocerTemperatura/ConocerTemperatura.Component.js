@@ -17,6 +17,8 @@ import Thermometer from "react-thermometer-component";
 import animationData from "../../../lotties/min-max.json";
 import wheatherService from "../../../services/weatherService";
 import "./ConocerTemperatura.scss";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 
 export default function MaterialUIPickers() {
   // The first commit of Material-UI
@@ -25,12 +27,24 @@ export default function MaterialUIPickers() {
 
   const [fechaMax, setFechaMax] = useState();
   const [temperatura, setTemperatura] = useState([]);
+  const [showSnack, setShowSnack] = useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setShowSnack(false);
+  };
   useEffect(() => {
     var d = new Date();
 
     setFechaMax(sumarDias(d, 5));
   }, []);
 
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant='filled' {...props} />;
+  }
   const getWheatherNow = async () => {
     var data = await wheatherService.getByDateNow();
 
@@ -50,9 +64,11 @@ export default function MaterialUIPickers() {
     if (selectedDate !== null) {
       if (selectedDate.toDateString() !== "Invalid Date") {
         setLoading(true);
+
         var data = await wheatherService.getByDateToSearch(selectedDate);
         setLoading(false);
         setTemperatura(data);
+        setShowSnack(true);
       }
     }
   };
@@ -123,6 +139,7 @@ export default function MaterialUIPickers() {
               </Button>
             </Grid>
             <Grid item xs={6}></Grid>
+            <Grid item xs={6}></Grid>
             <Grid item xs={6}>
               <Card variant='outlined'>
                 <CardContent>
@@ -137,12 +154,18 @@ export default function MaterialUIPickers() {
                         />
                       </Grid>
                       <Grid item xs={6}>
-                        <Typography color='textSecondary' gutterBottom>
+                        <Typography
+                          variant={"caption"}
+                          color='textSecondary'
+                          gutterBottom>
                           Temperatura minima: {temperatura.min_temp}
                         </Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        <Typography color='textSecondary' gutterBottom>
+                        <Typography
+                          variant={"caption"}
+                          color='textSecondary'
+                          gutterBottom>
                           Temperatura maxima: {temperatura.max_temp}
                         </Typography>
                       </Grid>
@@ -169,6 +192,14 @@ export default function MaterialUIPickers() {
                   </Grid>
                 </CardContent>
               </Card>
+              <Snackbar
+                open={showSnack}
+                autoHideDuration={4000}
+                onClose={handleClose}>
+                <Alert onClose={handleClose} severity='success'>
+                  Actualizado con exito
+                </Alert>
+              </Snackbar>
             </Grid>
           </Grid>
         </MuiPickersUtilsProvider>
