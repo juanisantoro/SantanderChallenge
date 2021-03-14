@@ -94,4 +94,4 @@ Descripción inicial de la aplicacion, con una amigable animación.
 #### Meetups
 - Se cargan todas las meetups creadas con el usuario "admin". 
 - Las mismas alojadas en LocalStorage, NO en DB.
-- Se puede inscribir a una ingresando "si" en la meeting que se desee, luego se puede marcar asistencia de la misma manera.
+- Se puede inscribir a una meeting y marcar que asisti� mediante los botones del lado derecho de la tabla
