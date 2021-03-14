@@ -16,6 +16,8 @@ import "whatwg-fetch";
 export default function MaterialUIPickers() {
   // The first commit of Material-UI
   const [meetings, setMeetings] = useState([]);
+  const [meetingsRefresh, setMeetingsRefresh] = useState(false);
+  var listOfMeetings = [];
   const [validate, setValidate] = useState(false);
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("meetings")) !== null) {
@@ -126,20 +128,6 @@ export default function MaterialUIPickers() {
             </Typography>
           </Grid>
 
-          <Grid xs={3}></Grid>
-          <Grid item xs={9}>
-            <Typography color='textSecondary' gutterBottom>
-              Ingrese "si" para Inscribirse
-            </Typography>
-          </Grid>
-
-          <Grid xs={3}></Grid>
-          <Grid item xs={9}>
-            <Typography color='textSecondary' gutterBottom>
-              Ingrese "si" para Marcar que asistió
-            </Typography>
-          </Grid>
-
           <Grid item xs={3}></Grid>
           <Grid item xs={9}>
             <DataGrid
@@ -172,7 +160,7 @@ export default function MaterialUIPickers() {
                 // allowAdding={true}
                 // allowDeleting={true}
                 // deleteRow={true}
-                allowUpdating={true}
+                //  allowUpdating={true}
               />
               <Paging defaultPageSize={8}></Paging>
               <Column width={150} required dataField='nombre' caption='Nombre'>
@@ -194,7 +182,7 @@ export default function MaterialUIPickers() {
                 <RequiredRule message='Es obligatorio' />
               </Column>
 
-              {/* <Column
+              <Column
                 caption='Inscribirse - Asistió'
                 type='buttons'
                 width={170}
@@ -204,7 +192,43 @@ export default function MaterialUIPickers() {
                     icon: "add",
                     visible: true,
                     tooltip: "Inscribirse",
-                    onClick: (e) => {},
+                    onClick: (e) => {
+                      debugger;
+                      var listOfMeetings = JSON.parse(
+                        localStorage.getItem("meetings")
+                      );
+
+                      var meetToChange = listOfMeetings.filter(
+                        (x) => x.__KEY__ === e.row.data.__KEY__
+                      );
+
+                      meetToChange[0].asistio = "Si";
+
+                      var a = {
+                        __KEY__: meetToChange[0].__KEY__,
+                        asistio:
+                          meetToChange[0].asistio === undefined
+                            ? ""
+                            : meetToChange[0].asistio,
+                        nombre: meetToChange[0].nombre,
+                        fecha: meetToChange[0].fecha,
+                        inscripto: "Si",
+                      };
+
+                      var listToChange = listOfMeetings.filter(
+                        (x) => x.__KEY__ !== e.row.data.__KEY__
+                      );
+
+                      listToChange.push(a);
+
+                      //localStorage.clear();
+                      localStorage.setItem(
+                        "meetings",
+                        JSON.stringify(listToChange)
+                      );
+
+                      setMeetings(listToChange);
+                    },
                   },
 
                   {
@@ -213,7 +237,7 @@ export default function MaterialUIPickers() {
 
                     visible: true,
                     onClick: (e) => {
-                       
+                      // setMeetingsRefresh(true);
                     },
                   },
                   {
@@ -221,11 +245,45 @@ export default function MaterialUIPickers() {
                     icon: "check",
                     tooltip: "Asistió",
                     onClick: (e) => {
-                       
+                      debugger;
+                      var listOfMeetings = JSON.parse(
+                        localStorage.getItem("meetings")
+                      );
+
+                      var meetToChange = listOfMeetings.filter(
+                        (x) => x.__KEY__ === e.row.data.__KEY__
+                      );
+
+                      meetToChange[0].asistio = "Si";
+
+                      var a = {
+                        __KEY__: meetToChange[0].__KEY__,
+                        nombre: meetToChange[0].nombre,
+                        fecha: meetToChange[0].fecha,
+                        inscripto:
+                          meetToChange[0].inscripto === undefined
+                            ? ""
+                            : meetToChange[0].inscripto,
+                        asistio: "Si",
+                      };
+
+                      var listToChange = listOfMeetings.filter(
+                        (x) => x.__KEY__ !== e.row.data.__KEY__
+                      );
+
+                      listToChange.push(a);
+
+                      //localStorage.clear();
+                      localStorage.setItem(
+                        "meetings",
+                        JSON.stringify(listToChange)
+                      );
+
+                      setMeetings(listToChange);
                     },
                   },
                 ]}
-              /> */}
+              />
 
               {/* <Column
                       type='buttons'
