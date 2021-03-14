@@ -80,6 +80,10 @@ export default function MaterialUIPickers() {
     setMeetings(listMeeting);
   };
 
+  const onCreating = (data) => {
+    data.data.fecha = new Date(data.data.fecha).toLocaleDateString();
+  };
+
   return (
     <Card variant='outlined'>
       <CardContent>
@@ -92,6 +96,9 @@ export default function MaterialUIPickers() {
                     Administración de meetups
                   </Typography>
                   <DataGrid
+                    onRowInserting={(data) => {
+                      onCreating(data);
+                    }}
                     onRowRemoved={(data) => {
                       onDelete(data);
                     }}
@@ -118,7 +125,7 @@ export default function MaterialUIPickers() {
                       allowAdding={true}
                       allowDeleting={true}
                       deleteRow={true}
-                      allowUpdating={true}
+                      //  allowUpdating={true}
                     />
                     <Paging defaultPageSize={8}></Paging>
                     <Column required dataField='nombre' caption='Nombre'>
