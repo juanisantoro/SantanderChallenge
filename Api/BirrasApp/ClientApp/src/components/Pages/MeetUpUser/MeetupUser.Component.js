@@ -15,9 +15,8 @@ import "whatwg-fetch";
 export default function MaterialUIPickers() {
   // The first commit of Material-UI
   const [meetings, setMeetings] = useState([]);
-
+  const [validate, setValidate] = useState(false);
   useEffect(() => {
-    debugger;
     if (JSON.parse(localStorage.getItem("meetings")) !== null) {
       var listOfMeetings = JSON.parse(localStorage.getItem("meetings"));
 
@@ -44,9 +43,45 @@ export default function MaterialUIPickers() {
 
   const meetingData = [];
 
-  const onRowRemoved = (data) => {
-    debugger;
+  const validateUpdate = (data) => {
+    // if (
+    //   data.newData["inscripto"] === undefined &&
+    //   data.newData["asistio"] === undefined
+    // ) {
+    //   setValidate(false);
+    //   return;
+    // }
+
+    if (data.newData.inscripto !== undefined) {
+      if (data.newData.inscripto.toLowerCase() !== "si") {
+        data.newData.inscripto = data.oldData.inscripto;
+        return;
+      } else {
+        data.newData.inscripto = "Si";
+      }
+    }
+
+    if (data.newData.asistio !== undefined) {
+      if (data.newData.asistio.toLowerCase() !== "si") {
+        data.newData.asistio = data.oldData.asistio;
+        return;
+      } else {
+        data.newData.asistio = "Si";
+      }
+    }
+
+    if (data.newData.nombre !== undefined) {
+      data.newData.nombre = data.oldData.nombre;
+      return;
+    }
+
+    if (data.newData.fecha !== undefined) {
+      data.newData.fecha = data.oldData.fecha;
+      return;
+    }
   };
+
+  const onRowRemoved = (data) => {};
 
   const saveMeeting = (data) => {
     var listMeeting = meetings;
@@ -55,29 +90,28 @@ export default function MaterialUIPickers() {
   };
 
   const onDelete = (data) => {
-    debugger;
     var listMeeting = meetings.filter((x) => x.__KEY__ !== data.__KEY__);
 
     localStorage.setItem("meetings", JSON.stringify(listMeeting));
   };
 
   const onUpdate = (data) => {
-    debugger;
+    if (validate) {
+      var listMeeting = meetings.filter((x) => x.__KEY__ !== data.data.__KEY__);
 
-    var listMeeting = meetings.filter((x) => x.__KEY__ !== data.data.__KEY__);
+      var newMeeting = {
+        fecha: new Date(data.data.fecha).toISOString(),
+        nombre: data.data.nombre,
+        __KEY__: data.data.__KEY__,
+        inscripto: data.data.inscripto,
+        asistio: data.data.asistio,
+      };
 
-    var newMeeting = {
-      fecha: new Date(data.data.fecha).toISOString(),
-      nombre: data.data.nombre,
-      __KEY__: data.data.__KEY__,
-      inscripto: data.data.inscripto,
-      asistio: data.data.asistio,
-    };
+      listMeeting.push(newMeeting);
+      localStorage.setItem("meetings", JSON.stringify(listMeeting));
 
-    listMeeting.push(newMeeting);
-    localStorage.setItem("meetings", JSON.stringify(listMeeting));
-
-    setMeetings(listMeeting);
+      setMeetings(listMeeting);
+    }
   };
 
   return (
@@ -110,6 +144,9 @@ export default function MaterialUIPickers() {
             <DataGrid
               onRowRemoved={(data) => {
                 onDelete(data);
+              }}
+              onRowUpdating={(data) => {
+                validateUpdate(data);
               }}
               onRowUpdated={(data) => {
                 onUpdate(data);
@@ -175,7 +212,7 @@ export default function MaterialUIPickers() {
 
                     visible: true,
                     onClick: (e) => {
-                      debugger;
+                       
                     },
                   },
                   {
@@ -183,7 +220,7 @@ export default function MaterialUIPickers() {
                     icon: "check",
                     tooltip: "Asistió",
                     onClick: (e) => {
-                      debugger;
+                       
                     },
                   },
                 ]}

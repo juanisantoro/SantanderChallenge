@@ -24,7 +24,6 @@ export const Login = async (user, pass) => {
     pass: pass,
   };
   try {
-    debugger;
     const urlFilter = `login/`;
     const response = await axios.post(
       urlFilter,
@@ -46,7 +45,7 @@ const getByDateNow = async () => {
     const urlFilterByDate = `getWeather/`;
 
     const response = await axios.get(urlFilterByDate);
-    debugger;
+
     return response.data;
   } catch (error) {
     console.error(error);
@@ -59,7 +58,7 @@ const getByDateToSearch = async (date) => {
     const urlFilterByDate = `getWeatherByDate/${date.toISOString()}`;
 
     const response = await axios.get(urlFilterByDate);
-    debugger;
+
     return response.data;
   } catch (error) {
     console.error(error);
@@ -72,7 +71,7 @@ const getBeersBox = async (date, cantidadPersonas) => {
     const urlFilterByDate = `getBoxBeer/${cantidadPersonas}/${date.toISOString()}`;
 
     const response = await axios.get(urlFilterByDate);
-    debugger;
+
     return response.data;
   } catch (error) {
     console.error(error);
@@ -82,7 +81,6 @@ const getBeersBox = async (date, cantidadPersonas) => {
 
 const getBeersBoxAndWheather = async (date, cantidadPersonas) => {
   try {
-    debugger;
     const urlBeer = `https://localhost:44360/api/Weather/getBoxBeer/${cantidadPersonas}/${date.toISOString()}`;
     const urlWeather = `https://localhost:44360/api/Weather/getWeatherByDate/${date.toISOString()}`;
 

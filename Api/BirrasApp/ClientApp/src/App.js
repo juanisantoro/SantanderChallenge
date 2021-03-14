@@ -13,7 +13,6 @@ export default class App extends Component {
   static displayName = App.name;
 
   render() {
-    debugger;
     return sessionStorage.getItem("user") === null ? (
       <Login></Login>
     ) : (

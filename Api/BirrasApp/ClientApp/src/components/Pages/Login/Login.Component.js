@@ -66,16 +66,12 @@ export default function SignIn() {
         document.getElementById("root")
       );
     }
-
-    debugger;
   };
   const setearUser = (value) => {
-    debugger;
     setUser(value.target.valueOf().value.toString());
   };
 
   const setearPass = (value) => {
-    debugger;
     setPass(value.target.valueOf().value.toString());
   };
 

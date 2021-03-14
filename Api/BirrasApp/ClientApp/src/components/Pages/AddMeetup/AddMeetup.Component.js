@@ -25,7 +25,6 @@ export default function MaterialUIPickers() {
   const [cantidadBirras, setCantidadBirras] = useState(0);
 
   useEffect(() => {
-    debugger;
     if (JSON.parse(localStorage.getItem("meetings")) !== null)
       setMeetings(JSON.parse(localStorage.getItem("meetings")));
   }, []);
@@ -49,9 +48,7 @@ export default function MaterialUIPickers() {
 
   const meetingData = [];
 
-  const onRowRemoved = (data) => {
-    debugger;
-  };
+  const onRowRemoved = (data) => {};
 
   const saveMeeting = (data) => {
     var listMeeting = meetings;
@@ -60,20 +57,17 @@ export default function MaterialUIPickers() {
   };
 
   const onDelete = (data) => {
-    debugger;
     var listMeeting = meetings.filter((x) => x.__KEY__ !== data.__KEY__);
 
     localStorage.setItem("meetings", JSON.stringify(listMeeting));
   };
 
   const onUpdate = (data) => {
-    debugger;
-
     var listMeeting = meetings.filter((x) => x.__KEY__ !== data.data.__KEY__);
 
     var newMeeting = {
       fecha: new Date(data.data.fecha).toISOString(),
-      nombre: data.data.nombre,
+      nombre: data.data.nombre.charAt(0).toUpperCase(),
       __KEY__: data.data.__KEY__,
       inscripto: data.data.inscripto,
       asistio: data.data.asistio,
