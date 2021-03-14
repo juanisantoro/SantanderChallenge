@@ -11,6 +11,12 @@
 Link descarga net core 2.2 :
 https://dotnet.microsoft.com/download/dotnet/2.2
 
+-Asegurarse tener instalado los SDK para netcore 2.2
+Link de descarga:
+https://dotnet.microsoft.com/download/visual-studio-sdks
+
+seleccionar los archivos de netcore segun version de visual studio y arquitectura del sistema operativo correspondiente.
+
 - Se creo un swagger para documentar la Api Rest, tal cual pedido en la especificacion.
 
 - La api esta configurada dentro del archivo launchappsettings.json que corra en la direccion local
