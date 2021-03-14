@@ -93,7 +93,7 @@ export default function MaterialUIPickers() {
             <Card variant='outlined'>
               <CardContent>
                 <Grid container>
-                  <Typography color='textSecondary' gutterBottom>
+                  <Typography variant='h5' component='h2' gutterBottom>
                     Administración de meetups
                   </Typography>
                   <DataGrid
